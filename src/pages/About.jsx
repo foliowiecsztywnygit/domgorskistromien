@@ -1,109 +1,137 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
+import { about, contact, houseInfo } from '../data/site';
+import { Trees, Mountain, Sparkles, Heart, CheckCircle2, Phone, Calendar, ArrowRight } from 'lucide-react';
 
 const About = () => {
-  const reviews = [
-    {
-      author: "Agnieszka Kasprzak",
-      rating: 5,
-      date: "rok temu",
-      text: "Było naprawdę super 🤩klimatyczny kominek, dwie łazienki, 5 sypialni, które spokojnie pomieszczą 12/14 osób. Brakuje jedynie balii/jacuzzi i zamykanego ogrodzenia. W pełni wyposażone, czysto i bardzo dobry kontakt. Polecam z całego serca ❤️"
-    },
-    {
-      author: "Мар'яна Палига",
-      rating: 5,
-      date: "rok temu",
-      text: "Bardzo ładne, kameralne miejsce. 🥰 Super widoki, bardzo blisko do Term Chochołowskich, oprócz tego dom posiada wszystkie niezbędne wyposażenie. Osobno chciałam podziękować za możliwość pobytu z psem, dla nas to bardzo ważne, dlatego polecamy w 100 procentach 🫶🏻"
-    },
-    {
-      author: "Anna Muras",
-      rating: 5,
-      date: "rok temu",
-      text: "Domek jest klimatyczny, przytulny, jest czyściutko, dobrze wyposażony. Bardzo słoneczny salon, wygodna kanapa😍. Piekny widok na góry! Bardzo blisko do stoków narciarskich (2 km Szymoszkowa). Miła obsługa. Na pewno wrócimy tu za rok! 💛"
-    }
-  ];
-
   return (
-    <div>
-      <Hero 
-        title="O nas" 
-        subtitle="Twoje miejsce na ziemi" 
-        isHome={false} 
+    <div className="bg-[#FAFBF8] min-h-screen">
+      <Hero
+        title="O Nas"
+        subtitle="Poznaj historię Domku Górski Strumień i urok malowniczej wsi Stronie Śląskie Wieś w dolinie potoku Janówka."
+        isHome={false}
+        bgImage="/assets/images/ogrod-laki.webp"
+        badge="Łucja i Sylwester Kozińscy • Gospodarze"
       />
 
-      <section className="py-32 px-4 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-        <div className="flex-1 w-full h-[600px] relative">
-          <img 
-            src="/assets/images/wnetrze-13.webp" 
-            alt="Osada Dzianisz N°54" 
-            className="w-full h-full object-cover shadow-2xl"
-          />
-        </div>
-        <div className="flex-1 text-center lg:text-left">
-          <h2 className="text-4xl font-serif text-foreground mb-6">Misja i Spokój</h2>
-          <p className="text-gray-600 mb-6 font-light leading-relaxed">
-            Osada N°54 to miejsce, które chcielibyśmy oddać do Państwa dyspozycji na czas wypoczynku. Stworzyliśmy przestrzeń dla osób ceniących sobie ciszę i spokój, a jednocześnie chcących cieszyć się atrakcjami, jakie oferuje całe Podhale.
-          </p>
-          <p className="text-gray-600 font-light leading-relaxed mb-12">
-            Zadbaliśmy o każdy najmniejszy detal, by Nasi goście czuli się u nas swobodnie i absolutnie komfortowo. Każdy z domków to 160m² luksusu przygotowanego z myślą o spędzeniu wyjątkowych chwil w gronie przyjaciół i rodziny.
-          </p>
+      {/* Main Story Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="space-y-8 text-gray-700 leading-relaxed text-base sm:text-lg font-light">
           
-          <div className="grid grid-cols-2 gap-8 border-t border-gray-200 pt-12">
-            <div>
-              <span className="block text-4xl font-serif text-accent mb-2">9 km</span>
-              <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Od Zakopanego</span>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Nasza Oaza Spokoju</span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-2">
+              Dolina potoku Janówka
+            </h2>
+            <div className="w-16 h-1 bg-[#8BC030] mx-auto mt-4 rounded-full"></div>
+          </div>
+
+          <div className="bg-white p-8 sm:p-10 rounded-3xl border border-[#E1E9D5] shadow-soft space-y-6">
+            <p className="text-xl font-serif text-[#53721D] leading-relaxed">
+              {about.paragraphs[0]}
+            </p>
+
+            <p className="leading-relaxed">
+              {about.paragraphs[1]}
+            </p>
+
+            <p className="leading-relaxed">
+              {about.paragraphs[2]}
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Visual Showcase Section */}
+      <section className="py-16 bg-[#F4F9EB] border-y border-[#E1E9D5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-2xl overflow-hidden shadow-md bg-white border border-[#E1E9D5]">
+              <div className="h-60 overflow-hidden">
+                <img
+                  src="/assets/images/ogrod-altana-skalniak.webp"
+                  alt="Altana i skalniak w ogrodzie"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">Ogród z altanką i wędzarnią</h3>
+                <p className="text-xs text-gray-600 font-light leading-relaxed">
+                  Posesja otoczona jest kwitnącymi krzewami, kwiatami i drzewami. Na gości czeka zadaszona altana, murowany grill oraz tradycyjna wędzarnia.
+                </p>
+              </div>
             </div>
-            <div>
-              <span className="block text-4xl font-serif text-accent mb-2">2 km</span>
-              <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Od Term Chochołowskich</span>
+
+            <div className="rounded-2xl overflow-hidden shadow-md bg-white border border-[#E1E9D5]">
+              <div className="h-60 overflow-hidden">
+                <img
+                  src="/assets/images/okolica-grzyby.webp"
+                  alt="Kanie i grzyby w okolicznych lasach"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">Raj dla grzybiarzy i smakoszy</h3>
+                <p className="text-xs text-gray-600 font-light leading-relaxed">
+                  Na łąkach wokół domku obficie rosną słynne kanie, a w pobliskich lasach pasma Śnieżnika grzybiarze i zbieracze jagód czują się jak w raju.
+                </p>
+              </div>
             </div>
-            <div>
-              <span className="block text-4xl font-serif text-accent mb-2">2 km</span>
-              <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Od Stacji Witów Ski</span>
-            </div>
-            <div>
-              <span className="block text-4xl font-serif text-accent mb-2">83 km</span>
-              <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Lotnisko Kraków-Balice</span>
+
+            <div className="rounded-2xl overflow-hidden shadow-md bg-white border border-[#E1E9D5]">
+              <div className="h-60 overflow-hidden">
+                <img
+                  src="/assets/images/okolica-zima.webp"
+                  alt="Zimowy krajobraz Czarnej Góry"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">Piękne zimy i sporty śnieżne</h3>
+                <p className="text-xs text-gray-600 font-light leading-relaxed">
+                  Tylko 3 km dzielą nas od jednego z najlepszych w Polsce ośrodków narciarskich Czarna Góra Resort z nowoczesnymi kanapami i trasami zjazdowymi.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Reviews Section */}
-      <section className="py-32 bg-gray-900 text-white border-t-8 border-accent">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="mb-16">
-            <h2 className="text-4xl font-serif mb-6">Opinie naszych Gości</h2>
-            <div className="inline-flex items-center space-x-6 bg-white/10 px-8 py-4 rounded-full border border-white/20">
-              <span className="text-5xl font-bold text-accent">4.9</span>
-              <div className="flex flex-col items-start">
-                <div className="flex text-accent text-xl mb-1">
-                  ★★★★★
-                </div>
-                <span className="text-sm text-gray-300 font-medium tracking-widest uppercase">Z Google (97 opinii)</span>
-              </div>
-            </div>
-          </div>
+      {/* House Standard and Features */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <h2 className="text-3xl font-serif font-bold text-gray-900 text-center mb-12">
+          Udogodnienia i wyposażenie domku
+        </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 text-left">
-            {reviews.map((review, i) => (
-              <div key={i} className="bg-white/5 p-10 border border-white/10 hover:border-accent transition-colors relative">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 32 32">
-                    <path d="M10 8c-4.4 0-8 3.6-8 8v8h8v-8H6c0-2.2 1.8-4 4-4V8zm18 0c-4.4 0-8 3.6-8 8v8h8v-8h-4c0-2.2 1.8-4 4-4V8z"/>
-                  </svg>
-                </div>
-                <div className="flex text-accent text-lg mb-6">★★★★★</div>
-                <p className="text-gray-300 font-light italic mb-8 leading-relaxed relative z-10 text-lg">
-                  "{review.text}"
-                </p>
-                <div className="flex justify-between items-center text-sm border-t border-white/10 pt-6">
-                  <span className="font-bold text-white uppercase tracking-widest">{review.author}</span>
-                  <span className="text-gray-500">{review.date}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-6">
+          {houseInfo.map((info, idx) => (
+            <div key={idx} className="bg-white p-6 sm:p-8 rounded-2xl border border-[#E1E9D5] shadow-soft">
+              <h3 className="text-xl font-serif font-bold text-[#53721D] mb-4 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#8BC030]"></span>
+                {info.title}
+              </h3>
+              <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 font-light">
+                {info.items.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-[#8BC030] shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Link
+            to="/pokoje"
+            className="inline-flex items-center gap-2 bg-[#8BC030] hover:bg-[#74A425] text-white px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-wider shadow-lg transition-all"
+          >
+            <span>Zobacz nasze pokoje i ofertę</span>
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </section>
     </div>

@@ -15,19 +15,25 @@ const db = new sqlite3.Database(dbPath, (err) => {
         console.log('Connected to the SQLite database.');
         // Initialize tables
         db.serialize(() => {
-            // Cabins table
+            // Cabins table (rooms/units in Domek Górski Strumień)
             db.run(`CREATE TABLE IF NOT EXISTS cabins (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL
             )`);
 
-            // Insert default cabins if not exists
+            // Seed default rooms for Domek Górski Strumień if empty
             db.get("SELECT COUNT(*) AS count FROM cabins", (err, row) => {
                 if (row && row.count === 0) {
+                    const defaultRooms = [
+                        "Pokój nr 1: Siwka i kasztanki (5 os.)",
+                        "Pokój nr 2: Wiklinowy (4 os.)",
+                        "Pokój nr 3: Studio Łowicki Akcent (5 os.)",
+                        "Pokój nr 4: Migdałowy Poranek (4 os.)",
+                        "Pokój nr 5: Dla Zakochanych (2 os.)",
+                        "Cały domek na wyłączność (16 os.)"
+                    ];
                     const stmt = db.prepare("INSERT INTO cabins (name) VALUES (?)");
-                    stmt.run("Domek 1");
-                    stmt.run("Domek 2");
-                    stmt.run("Domek 3");
+                    defaultRooms.forEach(name => stmt.run(name));
                     stmt.finalize();
                 }
             });
@@ -43,7 +49,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 FOREIGN KEY(cabin_id) REFERENCES cabins(id)
             )`);
 
-            // Inquiries table (optional, but good for saving requests)
+            // Inquiries table
             db.run(`CREATE TABLE IF NOT EXISTS inquiries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 cabin_id INTEGER,
@@ -54,12 +60,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 guest_phone TEXT,
                 message TEXT,
                 status TEXT DEFAULT 'pending', -- 'pending', 'confirmed', 'rejected'
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )`, () => {
-                db.run("ALTER TABLE inquiries ADD COLUMN guest_count INTEGER", () => {});
-                db.run("ALTER TABLE inquiries ADD COLUMN children_under_3 INTEGER", () => {});
-                db.run("ALTER TABLE inquiries ADD COLUMN children_over_3 INTEGER", () => {});
-            });
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                guest_count INTEGER,
+                children_under_3 INTEGER,
+                children_over_3 INTEGER
+            )`);
         });
     }
 });

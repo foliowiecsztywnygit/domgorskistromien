@@ -1,155 +1,176 @@
 import React, { useState } from 'react';
 import Hero from '../components/Hero';
+import { rooms, commonAreas, garden, surroundings } from '../data/site';
+import { Maximize2, X, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 
 const GalleryPage = () => {
-  const [filter, setFilter] = useState('wszystkie');
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeImageIndex, setActiveImageIndex] = useState(null);
 
-  const images = [
-    // Zewnątrz - Dron
-    ...Array.from({ length: 7 }, (_, i) => ({
-      src: `/assets/images/zewnatrz-dron-${i + 1}.webp`,
-      category: 'zewnatrz',
-      alt: `Widok z drona ${i + 1}`
-    })),
-    // Z zewnątrz zima/wieczór
-    ...Array.from({ length: 11 }, (_, i) => ({
-      src: `/assets/images/zewnatrz-zima-wieczor-${i + 1}.webp`,
-      category: 'zima',
-      alt: `Zima i wieczór ${i + 1}`
-    })),
-    // Nowe zdjęcia Domek I
-    ...Array.from({ length: 4 }, (_, i) => ({
-      src: `/assets/images/dom1-${i + 1}.jpg`,
-      category: 'wnetrza',
-      alt: `Domek 1 - Nowe zdjęcie ${i + 1}`
-    })),
-    // Wnętrza
-    ...Array.from({ length: 36 }, (_, i) => ({
-      src: `/assets/images/wnetrze-${i + 1}.webp`,
-      category: 'wnetrza',
-      alt: `Wnętrze domku ${i + 1}`
-    }))
+  const categories = [
+    { id: 'all', label: 'Wszystkie zdjęcia' },
+    { id: 'pokoje', label: 'Pokoje' },
+    { id: 'wnetrza', label: 'Części wspólne i salon' },
+    { id: 'ogrod', label: 'Ogród i altana' },
+    { id: 'okolica', label: 'Okolica i krajobrazy' },
   ];
 
-  const filteredImages = filter === 'wszystkie' ? images : images.filter(img => img.category === filter);
+  // Prepare images with category tags
+  const allImages = [
+    ...rooms.flatMap(r => r.gallery.map(img => ({ ...img, category: 'pokoje', room: r.number }))),
+    ...commonAreas.map(img => ({ ...img, category: 'wnetrza' })),
+    ...garden.map(img => ({ ...img, category: 'ogrod' })),
+    ...surroundings.map(img => ({ ...img, category: 'okolica' })),
+  ];
+
+  const filteredImages = activeCategory === 'all' 
+    ? allImages 
+    : allImages.filter(img => img.category === activeCategory);
 
   const openLightbox = (index) => {
-    setLightboxIndex(index);
-    setLightboxOpen(true);
+    setActiveImageIndex(index);
   };
-  
+
   const closeLightbox = () => {
-    setLightboxOpen(false);
+    setActiveImageIndex(null);
   };
 
   const nextImage = (e) => {
     e.stopPropagation();
-    setLightboxIndex((prev) => (prev + 1) % filteredImages.length);
+    if (activeImageIndex !== null) {
+      setActiveImageIndex((activeImageIndex + 1) % filteredImages.length);
+    }
   };
 
   const prevImage = (e) => {
     e.stopPropagation();
-    setLightboxIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
+    if (activeImageIndex !== null) {
+      setActiveImageIndex((activeImageIndex - 1 + filteredImages.length) % filteredImages.length);
+    }
   };
 
   return (
-    <div>
-      <Hero 
-        title="Galeria" 
-        subtitle="Odkryj Osadę Dzianisz N°54 na zdjęciach" 
-        isHome={false} 
+    <div className="bg-[#FAFBF8] min-h-screen">
+      <Hero
+        title="Galeria Zdjęć"
+        subtitle="Zobacz jak wygląda Domek Górski Strumień, nasze pokoje z łazienkami, salon z kominkiem oraz malowniczy ogród."
+        isHome={false}
+        bgImage="/assets/images/ogrod-woz.webp"
+        badge="Domek Górski Strumień • Galeria"
       />
 
-      <section className="py-32 bg-background min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {[
-              { id: 'wszystkie', label: 'Wszystkie' },
-              { id: 'wnetrza', label: 'Wnętrza' },
-              { id: 'zewnatrz', label: 'Z Drona' },
-              { id: 'zima', label: 'Zima i Wieczór' }
-            ].map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setFilter(cat.id)}
-                className={`px-8 py-3 text-sm font-bold uppercase tracking-widest transition-colors duration-300 border ${
-                  filter === cat.id 
-                    ? 'bg-accent border-accent text-white' 
-                    : 'bg-transparent border-gray-300 text-foreground hover:border-accent'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredImages.map((img, index) => (
-              <div 
-                key={`${img.src}-${index}`} 
-                className="relative aspect-[4/3] overflow-hidden group bg-gray-200 cursor-pointer"
-                onClick={() => openLightbox(index)}
-              >
-                <img 
-                  src={img.src} 
-                  alt={img.alt} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-          
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setActiveImageIndex(null);
+              }}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-all ${
+                activeCategory === cat.id
+                  ? 'bg-[#53721D] text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-[#F4F9EB] hover:text-[#53721D] border border-[#E1E9D5]'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
+
+        {/* Image Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filteredImages.map((img, idx) => (
+            <div
+              key={idx}
+              onClick={() => openLightbox(idx)}
+              className="relative h-64 rounded-2xl overflow-hidden bg-white border border-[#E1E9D5] shadow-sm hover:shadow-xl cursor-pointer group"
+            >
+              <img
+                src={img.src}
+                alt={img.caption}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-colors flex items-center justify-center">
+                <Maximize2 size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+
+              {img.room && (
+                <div className="absolute top-3 left-3 bg-[#53721D]/90 backdrop-blur-sm text-white px-2.5 py-0.5 rounded-full text-[11px] font-bold">
+                  {img.room}
+                </div>
+              )}
+
+              <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/85 via-black/40 to-transparent text-white text-xs opacity-90 group-hover:opacity-100">
+                <p className="line-clamp-2">{img.caption}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </section>
 
-      {lightboxOpen && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4"
+      {/* Lightbox Modal */}
+      {activeImageIndex !== null && filteredImages[activeImageIndex] && (
+        <div
           onClick={closeLightbox}
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
         >
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-accent p-2 z-[110] transition-colors"
+          {/* Close button */}
+          <button
             onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white hover:text-[#AED864] bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors z-20"
+            aria-label="Zamknij"
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+            <X size={26} />
           </button>
-          
-          <button 
-            className="absolute left-2 sm:left-6 top-1/2 transform -translate-y-1/2 text-white hover:text-accent p-2 sm:p-4 z-[110] transition-colors"
+
+          {/* Previous arrow */}
+          <button
             onClick={prevImage}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-[#AED864] bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors z-20"
+            aria-label="Poprzednie"
           >
-            <svg className="w-8 h-8 sm:w-12 sm:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
+            <ChevronLeft size={30} />
           </button>
-          
-          <img 
-            src={filteredImages[lightboxIndex].src} 
-            alt={filteredImages[lightboxIndex].alt} 
-            className="max-h-full max-w-full object-contain pointer-events-none select-none"
-          />
-          
-          <button 
-            className="absolute right-2 sm:right-6 top-1/2 transform -translate-y-1/2 text-white hover:text-accent p-2 sm:p-4 z-[110] transition-colors"
+
+          {/* Next arrow */}
+          <button
             onClick={nextImage}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-[#AED864] bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors z-20"
+            aria-label="Następne"
           >
-            <svg className="w-8 h-8 sm:w-12 sm:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-            </svg>
+            <ChevronRight size={30} />
           </button>
-          
-          <div className="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm font-medium">
-            {lightboxIndex + 1} / {filteredImages.length}
+
+          {/* Active Image Container */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="max-w-5xl w-full flex flex-col items-center select-none"
+          >
+            <img
+              src={filteredImages[activeImageIndex].src}
+              alt={filteredImages[activeImageIndex].caption}
+              className="max-h-[80vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl"
+            />
+            
+            <div className="mt-4 text-center text-white">
+              <p className="text-sm sm:text-base font-medium">
+                {filteredImages[activeImageIndex].caption}
+              </p>
+              <span className="text-xs text-gray-400 mt-1 block">
+                Zdjęcie {activeImageIndex + 1} z {filteredImages.length}
+              </span>
+            </div>
           </div>
         </div>
       )}
+
     </div>
   );
 };

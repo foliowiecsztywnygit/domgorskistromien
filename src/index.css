@@ -1,14 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @theme {
-  --color-background: #F3EFE9;
-  --color-foreground: #2A2A2A;
-  --color-accent: #CFA055;
-  --color-footer: #222222;
-  --font-sans: "Montserrat", sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --color-background: #FAFBF8;
+  --color-surface: #FFFFFF;
+  --color-foreground: #23292F;
+  --color-muted: #5A6251;
+  --color-primary: #7CA826;
+  --color-primary-light: #94CC33;
+  --color-primary-dark: #53721D;
+  --color-accent: #8BC030;
+  --color-accent-hover: #74A425;
+  --color-accent-dark: #53721D;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
 }
 
 @layer base {
@@ -17,32 +21,29 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
   }
 }
 
-/* Custom Scrollbar for elegance */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-background);
+  background: #F4F7EE;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-accent);
+  background: #94CC33;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5F8321;
 }
 
-* {
-  box-shadow: none !important;
-}
-
-button {
-  border-radius: 0 !important;
-}
-
-/* Invert filter for the logo to make it goldish white */
-.logo-filter {
-  filter: invert(75%) sepia(21%) saturate(983%) hue-rotate(352deg) brightness(88%) contrast(85%);
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }

@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
     
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET || 'secret_fallback_key', (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
         next();
@@ -30,8 +30,8 @@ const authenticateToken = (req, res, next) => {
 // Admin Login
 app.post('/api/admin/login', (req, res) => {
     const { password } = req.body;
-    if (password === process.env.ADMIN_PASSWORD) {
-        const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, { expiresIn: '12h' });
+    if (password === (process.env.ADMIN_PASSWORD || 'admin123')) {
+        const token = jwt.sign({ admin: true }, process.env.JWT_SECRET || 'secret_fallback_key', { expiresIn: '12h' });
         res.json({ token });
     } else {
         res.status(401).json({ error: 'Invalid password' });
@@ -40,13 +40,11 @@ app.post('/api/admin/login', (req, res) => {
 
 // Admin Refresh Token
 app.post('/api/admin/refresh', authenticateToken, (req, res) => {
-    // If the middleware passes, the current token is valid. Issue a new one.
-    const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, { expiresIn: '12h' });
+    const token = jwt.sign({ admin: true }, process.env.JWT_SECRET || 'secret_fallback_key', { expiresIn: '12h' });
     res.json({ token });
 });
 
 // Get Availability (Public)
-// Returns list of blocked dates for all cabins or a specific cabin
 app.get('/api/availability', (req, res) => {
     db.all(`SELECT cabin_id, start_date, end_date FROM blocks`, [], (err, rows) => {
         if (err) {
@@ -56,7 +54,7 @@ app.get('/api/availability', (req, res) => {
     });
 });
 
-// Get Cabins (Public)
+// Get Cabins/Rooms (Public)
 app.get('/api/cabins', (req, res) => {
     db.all(`SELECT * FROM cabins`, [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -66,7 +64,7 @@ app.get('/api/cabins', (req, res) => {
 
 // --- Protected Admin Routes ---
 
-// Get all blocks (with details)
+// Get all blocks
 app.get('/api/admin/blocks', authenticateToken, (req, res) => {
     db.all(`SELECT * FROM blocks`, [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -117,21 +115,30 @@ app.post('/api/inquiries', (req, res) => {
     stmt.run([cabin_id, start_date, end_date, guest_name, guest_email, guest_phone, guest_count, children_under_3, children_over_3, message], async function(err) {
         if (err) return res.status(500).json({ error: err.message });
         
-        // Mock notification via SMS/WhatsApp alternative
-        console.log(`[NOTIFICATION] New inquiry received from ${guest_name} for Cabin ${cabin_id || 'Any'} from ${start_date} to ${end_date}. Guests: ${guest_count}, Children: ${children_under_3} (under 3), ${children_over_3} (over 3).`);
+        console.log(`[NOWA REZERWACJA - DOMEK GÓRSKI STRUMIEŃ] Od: ${guest_name}, Tel: ${guest_phone}, Email: ${guest_email}, Pokój: ${cabin_id || 'Wszystkie/Dowolny'}, Termin: ${start_date} do ${end_date}`);
         
         // --- RESEND EMAIL INTEGRATION ---
-        try {
-          await resend.emails.send({
-            from: 'rezerwacje@brosystems.pl',
-            to: 'Aga75karol@op.pl',
-            subject: `Nowe zapytanie o rezerwację - ${guest_name}`,
-            html: `<p><strong>Imię:</strong> ${guest_name}</p><p><strong>Telefon:</strong> ${guest_phone}</p><p><strong>Email:</strong> ${guest_email}</p><p><strong>Termin:</strong> ${start_date} do ${end_date}</p><p><strong>Goście:</strong> ${guest_count} (Dzieci do 3 lat: ${children_under_3}, Dzieci pow. 3 lat: ${children_over_3})</p><p><strong>Wiadomość:</strong> ${message}</p>`
-          });
-        } catch (emailErr) {
-          console.error("Failed to send email via Resend", emailErr);
+        if (resend) {
+          try {
+            await resend.emails.send({
+              from: 'rezerwacje@domekgorskistrumien.pl',
+              to: 'biuro@domekgorskistrumien.pl',
+              subject: `Zapytanie o rezerwację - Domek Górski Strumień - ${guest_name}`,
+              html: `
+                <h2>Nowe zapytanie o rezerwację w Domku Górski Strumień</h2>
+                <p><strong>Imię i nazwisko:</strong> ${guest_name}</p>
+                <p><strong>Telefon:</strong> <a href="tel:${guest_phone}">${guest_phone}</a></p>
+                <p><strong>Email:</strong> ${guest_email}</p>
+                <p><strong>Wybrany pokój / opcja:</strong> ID #${cabin_id || 'Brak'}</p>
+                <p><strong>Termin:</strong> ${start_date} do ${end_date}</p>
+                <p><strong>Liczba gości:</strong> ${guest_count} (dzieci do 3 lat: ${children_under_3 || 0}, pow. 3 lat: ${children_over_3 || 0})</p>
+                <p><strong>Wiadomość gościa:</strong><br />${message || '(brak dodatkowej wiadomości)'}</p>
+              `
+            });
+          } catch (emailErr) {
+            console.error("Failed to send email via Resend", emailErr);
+          }
         }
-        // -----------------------------------------------------------------
 
         res.json({ id: this.lastID, success: true });
     });
@@ -149,5 +156,5 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Domek Górski Strumień server is running on port ${port}`);
 });

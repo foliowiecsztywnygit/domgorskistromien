@@ -1,192 +1,462 @@
 import React from 'react';
-import Hero from '../components/Hero';
 import { Link } from 'react-router-dom';
+import Hero from '../components/Hero';
+import SearchBar from '../components/SearchBar';
+import { 
+  intro, 
+  highlights, 
+  rooms, 
+  commonAreas, 
+  garden, 
+  distances, 
+  contact,
+  about 
+} from '../data/site';
+import { 
+  BedDouble, 
+  Mountain, 
+  Flame, 
+  CookingPot, 
+  Gamepad2, 
+  Wifi, 
+  Car, 
+  Home as HomeIcon,
+  MapPin, 
+  Phone, 
+  Calendar, 
+  ArrowRight, 
+  CheckCircle, 
+  Trees,
+  Compass
+} from 'lucide-react';
+
+const iconMap = {
+  BedDouble: BedDouble,
+  Mountain: Mountain,
+  Flame: Flame,
+  CookingPot: CookingPot,
+  Gamepad2: Gamepad2,
+  Wifi: Wifi,
+  Car: Car,
+  Home: HomeIcon,
+};
 
 const Home = () => {
-  const reviews = [
-    {
-      author: "Agnieszka Kasprzak",
-      rating: 5,
-      date: "rok temu",
-      text: "Było naprawdę super 🤩klimatyczny kominek, dwie łazienki, 5 sypialni, które spokojnie pomieszczą 12/14 osób. Brakuje jedynie balii/jacuzzi i zamykanego ogrodzenia. W pełni wyposażone..."
-    },
-    {
-      author: "Мар'яна Палига",
-      rating: 5,
-      date: "rok temu",
-      text: "Bardzo ładne, kameralne miejsce. 🥰 Super widoki, bardzo blisko do Term Chochołowskich, oprócz tego dom posiada wszystkie niezbędne wyposażenie. Osobno chciałam..."
-    },
-    {
-      author: "Anna Muras",
-      rating: 5,
-      date: "rok temu",
-      text: "Domek jest klimatyczny, przytulny, jest czyściutko, dobrze wyposażony. Bardzo słoneczny salon, wygodna kanapa😍. Piekny widok na góry! Bardzo blisko do stoków..."
-    }
-  ];
-
   return (
-    <div>
-      <Hero 
-        title="Luksusowe Domki Wakacyjne" 
-        subtitle="W Dzianiszu koło Zakopanego oferujemy domy z widokiem na góry" 
-        isHome={true} 
+    <div className="bg-[#FAFBF8]">
+      {/* Hero Section */}
+      <Hero
+        title="Domek Górski Strumień"
+        subtitle="Zapraszamy w góry o każdej porze roku w rejon Czarnej Góry na Ziemi Kłodzkiej. Cisza, czyste powietrze, potok Janówka i niezapomniane widoki."
+        isHome={true}
+        bgImage="/assets/images/ogrod-altana.webp"
+        badge="Stronie Śląskie – Wieś • 3 km od stacji narciarskiej Czarna Góra"
       />
 
-      {/* About Section */}
-      <section className="py-32 px-4 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 mt-12">
-        <div className="flex-1 text-center lg:text-left">
-          <h2 className="text-4xl font-serif text-foreground mb-6">Osada N°54 – Twoje miejsce na wypoczynek</h2>
-          <p className="text-gray-600 mb-6 font-light leading-relaxed">
-            Cicha i urokliwa miejscowość, w której znajdują się nasze domki, oddalona jest zaledwie 9 km od Zakopanego, 2 km od stacji narciarskiej Witów Ski i 2 km od Term Chochołowskich, co czyni ją doskonałą bazą wypadową do licznych atrakcji Podhala. Cisza i spokój pozwolą na spędzenie wyjątkowych chwil w gronie najbliższych.
-          </p>
-          <p className="text-gray-600 font-light leading-relaxed mb-6">
-            Oferujemy zakwaterowanie w luksusowych domkach 14-osobowych o powierzchni 160m² każdy. Każdy z domów jest częściowo ogrodzony i posiada własną strefę wypoczynku z grillem oraz niewielki plac zabaw dla dzieci. Dwa domy posiadają dodatkowo altany, a trzeci dysponuje dużym, przestronnym tarasem. Wnętrza są przytulnie urządzone, posiadają wygodne meble, a my zapewniamy ręczniki i pościel.
-          </p>
-          <p className="text-xs uppercase tracking-widest font-bold text-accent">
-            Najbliższe lotnisko: Kraków-Balice (83 km)
-          </p>
-        </div>
-        <div className="flex-1 w-full h-[500px] relative">
-          <img 
-            src="/assets/images/wnetrze-13.webp" 
-            alt="Wnętrze luksusowego domku" 
-            className="w-full h-full object-cover shadow-lg"
-          />
-        </div>
-      </section>
+      {/* Search Bar (Floating) */}
+      <div className="max-w-7xl mx-auto px-4 -mt-10 sm:-mt-12 relative z-30 mb-20">
+        <SearchBar />
+      </div>
 
-      {/* Houses Grid Section */}
-      <section className="py-24 bg-[#EBE7DF]">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mb-16 text-center md:text-left">
-            <h2 className="text-4xl font-serif text-foreground mb-4">Nasze Domki</h2>
-            <p className="text-gray-600 font-light">Do Twojej dyspozycji oddajemy 3 niezależne, w pełni wyposażone domki 14-osobowe.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { id: 1, img: "dom1-1.jpg", desc: "Z prywatnym jacuzzi i altaną. Obejmuje strefę wypoczynku z grillem oraz plac zabaw." },
-              { id: 2, img: "wnetrze-7.webp", desc: "Z przestronnym tarasem lub altaną, strefą wypoczynku z grillem i placem zabaw." },
-              { id: 3, img: "wnetrze-18.webp", desc: "Z altaną lub dużym tarasem, strefą wypoczynku z grillem i placem zabaw." }
-            ].map(domek => (
-              <div key={domek.id} className="bg-white shadow-md group overflow-hidden flex flex-col h-full">
-                <div className="relative h-64 overflow-hidden">
-                  <img src={`/assets/images/${domek.img}`} alt={`Domek ${domek.id}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute top-4 right-4 bg-accent text-white px-4 py-1 text-xs font-bold uppercase tracking-widest">
-                    REZERWUJ
-                  </div>
-                </div>
-                <div className="p-8 flex-grow flex flex-col">
-                  <h3 className="text-xl font-serif text-foreground mb-4">Domek Wakacyjny<br/>N°{domek.id}</h3>
-                  <p className="text-sm text-gray-600 font-light mb-4 flex-grow">{domek.desc}</p>
-                  <ul className="text-sm text-gray-500 mb-6 space-y-1">
-                    <li>• Do 14 gości (160m²)</li>
-                    <li>• 5 sypialni (część z balkonem)</li>
-                    <li>• 2 łazienki z prysznicem</li>
-                    <li>• Salon z kominkiem i dużą kuchnią</li>
-                  </ul>
-                  <div className="flex justify-between items-end border-t border-gray-100 pt-4 mt-auto">
-                    <p className="text-xs text-gray-500 font-medium">Ogrzewanie podłogowe<br/>Parking w cenie</p>
-                    <Link to="/domki" className="text-accent text-xs font-bold uppercase tracking-widest hover:text-[#b88c45]">Więcej</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Equipment Details Section */}
-      <section className="py-24 text-center px-4">
-        <h2 className="text-3xl font-serif text-foreground mb-8">Wyposażenie najwyższej klasy</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto text-left">
-          <div className="p-6 bg-white border border-gray-100 shadow-sm">
-            <h3 className="text-xl font-serif text-accent mb-4">Kuchnia i Salon</h3>
-            <p className="text-sm text-gray-600 font-light leading-relaxed">
-              Przestronna kuchnia z dużą jadalnią posiada wszystko, czego potrzebujesz: lodówkę, zmywarkę, mikrofalę, 4-palnikową płytę indukcyjną, ekspres do kawy, toster i opiekacz. W salonie czeka kominek, wygodne kanapy i duży telewizor.
-            </p>
-          </div>
-          <div className="p-6 bg-white border border-gray-100 shadow-sm">
-            <h3 className="text-xl font-serif text-accent mb-4">Komfortowe Sypialnie</h3>
-            <p className="text-sm text-gray-600 font-light leading-relaxed">
-              5 sypialni rozmieszczono na wyższych kondygnacjach (dwie z balkonami). Wyposażone są w wygodne łóżka (jedno- i dwuosobowe), rozkładane kanapy i miejsce na przechowywanie.
-            </p>
-          </div>
-          <div className="p-6 bg-white border border-gray-100 shadow-sm">
-            <h3 className="text-xl font-serif text-accent mb-4">Ogrzewanie i Ciepło</h3>
-            <p className="text-sm text-gray-600 font-light leading-relaxed">
-              W łazienkach i częściowo na parterze zamontowano ogrzewanie podłogowe. Dodatkowe ciepło zapewniają elektryczne piecyki konwekcyjne oraz nastrojowy kominek w salonie.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Google Reviews */}
-      <section className="py-24 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="mb-12 flex flex-col items-center">
-            <h2 className="text-4xl font-serif mb-4">Co mówią nasi Goście?</h2>
-            <div className="flex items-center space-x-4 bg-white/10 px-6 py-3 rounded-full backdrop-blur-sm mt-4 border border-white/20">
-              <span className="text-3xl font-bold text-accent">4.9</span>
-              <div className="flex flex-col items-start">
-                <div className="flex text-accent text-sm">
-                  ★★★★★
-                </div>
-                <span className="text-xs text-gray-300 font-medium tracking-widest uppercase">Na podstawie 97 opinii w Google</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {reviews.map((review, i) => (
-              <div key={i} className="bg-white/5 p-8 border border-white/10 hover:border-accent/50 transition-colors">
-                <div className="flex text-accent text-sm mb-4">★★★★★</div>
-                <p className="text-gray-300 font-light italic mb-6 leading-relaxed">
-                  "{review.text}"
-                </p>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="font-bold">{review.author}</span>
-                  <span className="text-gray-500">{review.date}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-serif text-foreground mb-12 text-center">Często zadawane pytania (FAQ)</h2>
+      {/* Witamy Serdecznie / About Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          <div className="space-y-6">
-            <div className="border-b border-gray-200 pb-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Ilu gości może zatrzymać się w obiekcie?</h3>
-              <p className="text-gray-600 font-light">Domek udostępnia jedną dużą opcję zakwaterowania, która pomieści aż 14 gości.</p>
-            </div>
-            
-            <div className="border-b border-gray-200 pb-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Ile sypialni znajduje się w obiekcie?</h3>
-              <p className="text-gray-600 font-light">W każdym domu wakacyjnym zapewniono 5 oddzielnych sypialni oraz 2 łazienki z prysznicem. Dwie sypialnie posiadają własne balkony.</p>
-            </div>
-            
-            <div className="border-b border-gray-200 pb-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Jakie są godziny zameldowania i wymeldowania?</h3>
-              <p className="text-gray-600 font-light">Zameldowanie w obiekcie rozpoczyna się o godzinie 15:00 (do 22:00), a wymeldować się można do godziny 10:00 (od 08:00). Prosimy o poinformowanie nas z wyprzedzeniem o planowanej godzinie przyjazdu.</p>
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3DC] text-[#53721D] text-xs font-bold uppercase tracking-wider">
+              <Trees size={15} />
+              <span>Ziemia Kłodzka • Masyw Śnieżnika</span>
             </div>
 
-            <div className="border-b border-gray-200 pb-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Czy obiekt jest przyjazny dzieciom?</h3>
-              <p className="text-gray-600 font-light">Tak, obiekt jest bardzo często rezerwowany przez rodziny! Dzieci w każdym wieku są mile widziane. Łóżeczka dla dzieci (0-2 lata) są dostępne bezpłatnie na życzenie. Dzieci od 6. roku życia podlegają standardowym opłatom.</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight">
+              {intro.title}
+            </h2>
+
+            <p className="text-lg text-[#53721D] font-medium leading-relaxed">
+              {intro.lead}
+            </p>
+
+            <p className="text-gray-600 leading-relaxed font-light text-base">
+              {intro.location} Wokół roztaczają się wspaniałe panoramy na pasmo Czarnej Góry i Żmijowca, górskie łąki i pachnące lasy. To idealne miejsce na ucieczkę od zgiełku miasta, gdzie jesienią słychać rykowiska jeleni, a zimą stoki narciarskie są na wyciągnięcie ręki.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Link
+                to="/o-nas"
+                className="inline-flex items-center gap-2 text-[#53721D] font-bold text-sm hover:underline"
+              >
+                <span>Przeczytaj naszą historię i poznaj gospodarzy</span>
+                <ArrowRight size={16} />
+              </Link>
             </div>
-            
-            <div className="border-b border-gray-200 pb-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">Czy w obiekcie dostępny jest balkon lub taras?</h3>
-              <p className="text-gray-600 font-light">Tak, każdy z naszych domków wakacyjnych posiada taras oraz wybrane sypialnie posiadają balkony.</p>
+          </div>
+
+          <div className="lg:col-span-5 relative">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+              <img
+                src="/assets/images/ogrod-dziedziniec.webp"
+                alt="Dziedziniec Domku Górski Strumień"
+                className="w-full h-[440px] object-cover hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                <div className="text-white">
+                  <span className="text-xs uppercase tracking-widest text-[#AED864] font-semibold">Gospodarze</span>
+                  <h3 className="font-serif text-xl font-bold">{contact.owners}</h3>
+                  <p className="text-xs text-gray-300">Stronie Śląskie – Wieś, ul. Leśna 2</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating badge */}
+            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-[#E1E9D5] hidden sm:flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-[#8BC030] text-white flex items-center justify-center font-bold text-lg">
+                16
+              </div>
+              <div className="text-xs">
+                <span className="block font-bold text-gray-900 text-sm">Miejsc noclegowych</span>
+                <span className="text-gray-500">w 5 komfortowych pokojach</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Highlights Grid */}
+      <section className="py-20 bg-[#F4F9EB] border-y border-[#E1E9D5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Komfort i Wygoda</span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-2 mb-4">
+              Wszystko, czego potrzebujesz do udanego wypoczynku
+            </h2>
+            <p className="text-gray-600 font-light text-base">
+              Domek został przygotowany z myślą o rodzinach z dziećmi, grupach przyjaciół oraz parach szukających ciszy i bliskości natury.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {highlights.map((item, idx) => {
+              const IconComponent = iconMap[item.icon] || HomeIcon;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white p-6 rounded-2xl border border-[#E1E9D5] shadow-soft hover:shadow-card transition-all duration-300 group hover:-translate-y-1"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#EAF3DC] text-[#53721D] group-hover:bg-[#8BC030] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                    <IconComponent size={24} />
+                  </div>
+                  <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 font-light leading-relaxed">
+                    {item.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Rooms Showcase Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Pokoje z łazienkami</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-gray-900 mt-2">
+              Nasze Pokoje
+            </h2>
+            <p className="text-gray-600 font-light mt-3 max-w-xl">
+              Oferujemy 5 przytulnych pokoi z prywatnymi łazienkami, TV i Wi-Fi, w tym 3 pokoje z widokiem na stoki Czarnej Góry oraz studio z aneksem kuchennym i balkonem.
+            </p>
+          </div>
+          <Link
+            to="/pokoje"
+            className="inline-flex items-center gap-2 text-sm font-bold text-white bg-[#53721D] hover:bg-[#3E5C17] px-6 py-3.5 rounded-xl shadow-md transition-all shrink-0"
+          >
+            <span>Wszystkie pokoje</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {rooms.map((room) => (
+            <div
+              key={room.slug}
+              className="bg-white rounded-3xl overflow-hidden border border-[#E1E9D5] shadow-soft hover:shadow-xl transition-all duration-300 flex flex-col group"
+            >
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src={room.cover.src}
+                  alt={room.cover.caption}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-[#53721D] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                  {room.number}
+                </div>
+                <div className="absolute top-4 right-4 bg-[#8BC030] text-white px-3.5 py-1 rounded-full text-xs font-bold tracking-wide shadow-sm">
+                  {room.capacityLabel}
+                </div>
+              </div>
+
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-2xl font-serif font-bold text-gray-900 mb-2 group-hover:text-[#53721D] transition-colors">
+                    {room.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 font-light mb-5 line-clamp-2">
+                    {room.short}
+                  </p>
+                  
+                  <ul className="space-y-1.5 text-xs text-gray-500 mb-6 border-t border-gray-100 pt-4">
+                    {room.features.slice(1, 4).map((f, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <CheckCircle size={14} className="text-[#8BC030] shrink-0" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <Link
+                    to={`/pokoje/${room.slug}`}
+                    className="text-xs uppercase font-bold tracking-wider text-[#53721D] hover:text-[#8BC030] transition-colors flex items-center gap-1.5"
+                  >
+                    <span>Szczegóły pokoju</span>
+                    <ArrowRight size={14} />
+                  </Link>
+
+                  <Link
+                    to={`/rezerwacja?cabin=${room.id}`}
+                    className="bg-[#EAF3DC] hover:bg-[#8BC030] text-[#53721D] hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors"
+                  >
+                    Rezerwuj
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Whole House Card */}
+          <div className="bg-gradient-to-br from-[#2D4412] to-[#1C2B0B] text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl">
+            <div>
+              <span className="text-xs uppercase font-bold tracking-widest text-[#AED864]">Wynajem na wyłączność</span>
+              <h3 className="text-3xl font-serif font-bold mt-2 mb-4">
+                Cały Domek dla Twojej Grupy
+              </h3>
+              <p className="text-sm text-gray-300 font-light leading-relaxed mb-6">
+                Planujesz wyjazd ze znajomymi lub dużą rodziną? Wynajmij cały dom (16 miejsc) na wyłączność – w tym 5 pokoi z łazienkami, kuchnię z jadalnią i tarasem, salonik z kominkiem, pokój zabaw oraz ogród z altaną i wędzarnią!
+              </p>
+              <ul className="space-y-2 text-xs text-gray-200">
+                <li className="flex items-center gap-2">
+                  <CheckCircle size={15} className="text-[#AED864]" /> Do 16 osób w 5 pokojach z łazienkami
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle size={15} className="text-[#AED864]" /> Kuchnia, salon z kominkiem, piłkarzyki
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle size={15} className="text-[#AED864]" /> Ogród z altaną, grillem i wędzarnią
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-8">
+              <Link
+                to="/rezerwacja?cabin=6"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#8BC030] hover:bg-[#74A425] text-white py-3.5 px-6 rounded-xl text-sm font-bold tracking-wide uppercase transition-all"
+              >
+                <Calendar size={16} />
+                <span>Zapytaj o cały domek</span>
+              </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Common Areas & Garden Strip */}
+      <section className="py-20 bg-white border-t border-[#E1E9D5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Przestrzeń wspólna</span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-2 mb-4">
+              Kuchnia, salon z kominkiem i piękny ogród
+            </h2>
+            <p className="text-gray-600 font-light">
+              Do wyłącznej dyspozycji gości przygotowaliśmy przestronny parter z tarasem oraz zagospodarowany ogród z tradycyjną wędzarnią.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="relative rounded-2xl overflow-hidden group shadow-md h-64">
+              <img
+                src="/assets/images/wnetrze-kuchnia-jadalnia.webp"
+                alt="W pełni wyposażona kuchnia z jadalnią"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5 text-white">
+                <div>
+                  <h4 className="font-serif font-bold text-base">Kuchnia z jadalnią</h4>
+                  <p className="text-xs text-gray-300">Duża lodówka, kuchenka gazowa, wyjście na taras</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden group shadow-md h-64">
+              <img
+                src="/assets/images/wnetrze-salonik-pianino.webp"
+                alt="Salonik z kominkiem i zabytkowym pianinem"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5 text-white">
+                <div>
+                  <h4 className="font-serif font-bold text-base">Salonik z kominkiem</h4>
+                  <p className="text-xs text-gray-300">Zabytkowe pianino, wygodne fotele i ciepło ognia</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden group shadow-md h-64">
+              <img
+                src="/assets/images/wnetrze-pokoj-zabaw.webp"
+                alt="Pokój zabaw z piłkarzykami i TV"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5 text-white">
+                <div>
+                  <h4 className="font-serif font-bold text-base">Pokój zabaw</h4>
+                  <p className="text-xs text-gray-300">Stół do piłkarzyków i TV na wspólne wieczory</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden group shadow-md h-64">
+              <img
+                src="/assets/images/ogrod-altana.webp"
+                alt="Ogród z altaną, grillem i wędzarnią"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5 text-white">
+                <div>
+                  <h4 className="font-serif font-bold text-base">Altana z grillem</h4>
+                  <p className="text-xs text-gray-300">Wędzarnia, kwiaty i widok na Masyw Śnieżnika</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/galeria"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#53721D] hover:text-[#8BC030] hover:underline"
+            >
+              <span>Zobacz pełną galerię zdjęć domku i ogrodu</span>
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Distances & Surroundings Section */}
+      <section className="py-24 bg-[#FAFBF8] border-t border-[#E1E9D5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-5 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3DC] text-[#53721D] text-xs font-bold uppercase tracking-wider">
+                <Compass size={15} />
+                <span>Lokalizacja & Wycieczki</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 leading-tight">
+                Doskonała baza wypadowa na Ziemi Kłodzkiej
+              </h2>
+              <p className="text-gray-600 font-light leading-relaxed">
+                Nasz domek usytuowany jest przy drodze ze Stronia Śląskiego na Sienną, skąd w kilka minut dotrzesz na stoki Czarnej Góry, nad zalew w Starej Morawie lub do słynnej Jaskini Niedźwiedziej w Kletnie.
+              </p>
+
+              <div className="bg-white p-6 rounded-2xl border border-[#E1E9D5] shadow-sm">
+                <h4 className="font-serif font-bold text-gray-900 mb-2">Zimą i latem:</h4>
+                <p className="text-xs text-gray-600 leading-relaxed font-light">
+                  Zimą – raj dla narciarzy (Czarna Góra 3 km, trasy biegowe na Przełęczy Puchaczówka). Latem – kąpielisko z piaszczystą plażą, kryty basen, liczne szlaki rowerowe (Singletrack Glacensis) oraz wędrówki na Śnieżnik (1425 m n.p.m.).
+                </p>
+              </div>
+
+              <Link
+                to="/atrakcje"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#53721D] hover:underline"
+              >
+                <span>Więcej atrakcji w okolicy →</span>
+              </Link>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {distances.map((dist, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white p-4 rounded-xl border border-[#E1E9D5] shadow-soft flex items-center gap-3.5 hover:border-[#8BC030] transition-colors"
+                  >
+                    <div className="w-12 h-10 rounded-lg bg-[#EAF3DC] text-[#53721D] font-bold text-sm flex items-center justify-center shrink-0">
+                      {dist.km} km
+                    </div>
+                    <span className="text-xs sm:text-sm text-gray-700 font-medium">
+                      {dist.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Quote / Nature Section */}
+      <section className="py-20 bg-[#2D4412] text-white text-center px-4 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-6 relative z-10">
+          <span className="text-xs uppercase tracking-widest text-[#AED864] font-bold">Magia Górskiej Wsi</span>
+          <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl italic font-normal leading-relaxed text-gray-100">
+            „Cisza taka, że słychać skrzekot derkaczy, kukanie kukułek, rykowiska jeleni w jesienną noc, cudowne widoki na Kotlinę Strońską oraz możliwość obserwacji gwiazd na czarnym nocnym niebie...”
+          </blockquote>
+          <p className="text-sm text-[#AED864] font-medium tracking-wider uppercase">
+            — Łucja i Sylwester Kozińscy, Domek Górski Strumień
+          </p>
+        </div>
+      </section>
+
+      {/* Booking CTA Banner */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="bg-gradient-to-r from-[#53721D] to-[#8BC030] rounded-3xl p-8 sm:p-12 text-white shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 text-center lg:text-left max-w-2xl">
+            <h3 className="text-3xl sm:text-4xl font-serif font-bold">
+              Zaplanuj swój wypoczynek w górach
+            </h3>
+            <p className="text-white/90 text-sm sm:text-base font-light">
+              Skontaktuj się z nami telefonicznie, wyślij zapytanie przez formularz lub zarezerwuj termin online. Czekamy na Ciebie o każdej porze roku!
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0 w-full sm:w-auto">
+            <Link
+              to="/rezerwacja"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-[#53721D] hover:bg-gray-100 px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-wider shadow-lg transition-all"
+            >
+              <Calendar size={18} />
+              <span>Zarezerwuj teraz</span>
+            </Link>
+
+            <a
+              href={contact.phoneHref}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#2D4412] hover:bg-[#1C2B0B] text-white px-7 py-4 rounded-xl text-sm font-bold transition-all"
+            >
+              <Phone size={18} className="text-[#AED864]" />
+              <span>{contact.phone}</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
