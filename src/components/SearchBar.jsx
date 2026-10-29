@@ -128,14 +128,14 @@ const SearchBar = () => {
             <Users size={20} />
           </div>
           <div className="flex-1">
-            <label htmlFor="guest-select" className="block text-[11px] uppercase tracking-wider font-semibold text-gray-500">Goście</label>
+            <label htmlFor="guest-select" className="block text-[11px] uppercase tracking-wider font-semibold text-gray-500">Goście (od 10 lat)</label>
             <select
               id="guest-select"
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
               className="w-full bg-transparent font-serif font-bold text-gray-900 focus:outline-none text-sm cursor-pointer"
             >
-              {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map((num) => (
+              {[1, 2, 3, 4, 5].map((num) => (
                 <option key={num} value={num}>
                   {num} {num === 1 ? 'osoba' : num < 5 ? 'osoby' : 'osób'}
                 </option>

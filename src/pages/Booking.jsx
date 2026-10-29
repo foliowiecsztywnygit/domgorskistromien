@@ -21,25 +21,7 @@ import {
 
 const API_URL = import.meta.env.PROD ? '' : 'http://localhost:3001';
 
-const wholeHouseOption = {
-  id: 6,
-  name: "Cały domek na wyłączność",
-  fullName: "Wynajem całego domku (do 16 osób)",
-  capacity: 16,
-  capacityLabel: "Cały dom do 16 osób",
-  desc: "5 pokoi z łazienkami, kuchnia z jadalnią i tarasem, salonik z kominkiem, pokój zabaw z piłkarzykami, ogród z altaną i wędzarnią.",
-  cover: { src: "/assets/images/ogrod-altana.webp", caption: "Cały Domek Górski Strumień" },
-  features: [
-    "Wszystkie 5 pokoi z prywatnymi łazienkami",
-    "Duża kuchnia z jadalnią i wyjściem na taras",
-    "Salonik z kominkiem i zabytkowym pianinem",
-    "Pokój zabaw z piłkarzykami i TV",
-    "Ogród z altaną, grillem i tradycyjną wędzarnią",
-    "Ogrodzona posesja z bezpłatnym parkingiem"
-  ]
-};
-
-const allCabinOptions = [...rooms, wholeHouseOption];
+const allCabinOptions = rooms;
 
 const BookingPage = () => {
   const [searchParams] = useSearchParams();
@@ -56,9 +38,8 @@ const BookingPage = () => {
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
-  const [guestCount, setGuestCount] = useState(guestsParam);
-  const [childrenUnder3, setChildrenUnder3] = useState('0');
-  const [childrenOver3, setChildrenOver3] = useState('0');
+  const [guestCount, setGuestCount] = useState(guestsParam || '2');
+  const [childrenOver10, setChildrenOver10] = useState('0');
   const [message, setMessage] = useState('');
   const [selectedCabin, setSelectedCabin] = useState(cabinParam ? parseInt(cabinParam, 10) : 1);
   const [submitStatus, setSubmitStatus] = useState(null); // 'sending' | 'success' | 'error'
@@ -84,7 +65,7 @@ const BookingPage = () => {
         const blocks = await blocksRes.json();
 
         // Calculate blocked dates
-        const cabinCount = cabinsData.length || 6;
+        const cabinCount = cabinsData.length || 5;
         const blockCountsByDate = {};
         blocks.forEach(b => {
           const d = b.start_date;
@@ -128,13 +109,14 @@ const BookingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedCabin) {
-      alert("Proszę wybrać pokój lub cały domek");
+      alert("Proszę wybrać pokój");
       return;
     }
     
     setSubmitStatus('sending');
     try {
       const selectedOption = allCabinOptions.find(c => c.id === selectedCabin);
+      const totalGuests = parseInt(guestCount, 10) + parseInt(childrenOver10 || '0', 10);
       const res = await fetch(`${API_URL}/api/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -145,10 +127,10 @@ const BookingPage = () => {
           guest_name: guestName,
           guest_email: guestEmail,
           guest_phone: guestPhone,
-          guest_count: guestCount,
-          children_under_3: childrenUnder3,
-          children_over_3: childrenOver3,
-          message: `Wybrany pokój: ${selectedOption?.fullName || selectedCabin}\n\n${message}`
+          guest_count: totalGuests,
+          children_under_3: 0,
+          children_over_3: parseInt(childrenOver10 || '0', 10),
+          message: `Wybrany pokój: ${selectedOption?.fullName || selectedCabin}\nDorośli: ${guestCount}, Dzieci od 10 lat: ${childrenOver10}\n\n${message}`
         })
       });
       if (res.ok) {
@@ -197,7 +179,7 @@ const BookingPage = () => {
     <div className="bg-[#FAFBF8] min-h-screen">
       <Hero
         title="Rezerwacja Pobytu"
-        subtitle="Zarezerwuj pokój lub cały domek na wyłączność. Szybki kontakt, bez pośredników i ukrytych opłat."
+        subtitle="Zarezerwuj wybrany pokój w Domku Górski Strumień. Szybki kontakt bezpośredni, bez pośredników i ukrytych opłat."
         isHome={false}
         bgImage="/assets/images/ogrod-altana.webp"
         badge="Domek Górski Strumień • Rezerwacja Bezpośrednia"
@@ -277,7 +259,7 @@ const BookingPage = () => {
             </div>
             <h2 className="text-3xl text-gray-900 font-serif font-bold">Dziękujemy za zapytanie!</h2>
             <p className="text-gray-600 text-sm leading-relaxed">
-              Twoje zgłoszenie rezerwacyjne zostało przekazane gospodarzom Domku Górski Strumień. Skontaktujemy się z Tobą telefonicznie lub mailowo w celu potwierdzenia rezerwacji i uzgodnienia wpłaty zadatku.
+              Twoje zgłoszenie rezerwacyjne zostało przekazane do Domku Górski Strumień. Skontaktujemy się z Tobą telefonicznie lub mailowo w celu potwierdzenia rezerwacji i uzgodnienia wpłaty zadatku.
             </p>
             <div className="p-4 bg-[#F4F9EB] rounded-2xl border border-[#E1E9D5] text-xs text-gray-700">
               <strong>Zadatek (30%):</strong> mBank {contact.bankAccount}
@@ -296,10 +278,10 @@ const BookingPage = () => {
             <div className="lg:col-span-6 space-y-4">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="text-2xl font-serif font-bold text-gray-900">
-                  Wybierz pokój lub cały domek
+                  Wybierz pokój
                 </h2>
                 <span className="text-xs text-[#53721D] font-bold">
-                  {allCabinOptions.length} opcji
+                  {allCabinOptions.length} pokoi do wyboru
                 </span>
               </div>
 
@@ -326,7 +308,7 @@ const BookingPage = () => {
                       <div>
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-xs uppercase font-bold text-[#8BC030]">
-                            {opt.number || 'Opcja specjalna'}
+                            {opt.number}
                           </span>
                           <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border border-[#E1E9D5] text-gray-700">
                             {opt.capacityLabel}
@@ -428,15 +410,24 @@ const BookingPage = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3">
+                  {/* Age policy alert */}
+                  <div className="p-3.5 bg-[#F4F9EB] rounded-2xl border border-[#D5E6BC] text-xs text-[#3E5516] flex items-start gap-2.5">
+                    <ShieldCheck size={18} className="text-[#53721D] shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold block text-sm mb-0.5">Zasady dotyczące wieku gości:</span>
+                      Dla zapewnienia ciszy i bezpieczeństwa przyjmujemy wyłącznie osoby dorosłe oraz dzieci od 10. roku życia (brak możliwości pobytu dzieci poniżej 10 lat). Wynajem dotyczy wyłącznie poszczególnych pokoi.
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-[11px] font-bold uppercase text-gray-600 mb-1">
-                        Liczba osób
+                        Dorośli
                       </label>
                       <input
                         type="number"
                         min="1"
-                        max="16"
+                        max={currentOption?.capacity || 5}
                         value={guestCount}
                         onChange={e => setGuestCount(e.target.value)}
                         className="w-full bg-[#FAFBF8] border border-[#E1E9D5] rounded-xl px-3 py-2.5 text-sm"
@@ -444,25 +435,14 @@ const BookingPage = () => {
                     </div>
                     <div>
                       <label className="block text-[11px] font-bold uppercase text-gray-600 mb-1">
-                        Dzieci do 3 lat
+                        Dzieci (od 10 lat)
                       </label>
                       <input
                         type="number"
                         min="0"
-                        value={childrenUnder3}
-                        onChange={e => setChildrenUnder3(e.target.value)}
-                        className="w-full bg-[#FAFBF8] border border-[#E1E9D5] rounded-xl px-3 py-2.5 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-bold uppercase text-gray-600 mb-1">
-                        Dzieci pow. 3 lat
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        value={childrenOver3}
-                        onChange={e => setChildrenOver3(e.target.value)}
+                        max="4"
+                        value={childrenOver10}
+                        onChange={e => setChildrenOver10(e.target.value)}
                         className="w-full bg-[#FAFBF8] border border-[#E1E9D5] rounded-xl px-3 py-2.5 text-sm"
                       />
                     </div>
@@ -476,7 +456,7 @@ const BookingPage = () => {
                       rows={3}
                       value={message}
                       onChange={e => setMessage(e.target.value)}
-                      placeholder="Pytania o dostawkę, orientacyjną godzinę przyjazdu, łóżeczko dla dziecka..."
+                      placeholder="Pytania o dostawkę, orientacyjną godzinę przyjazdu..."
                       className="w-full bg-[#FAFBF8] border border-[#E1E9D5] rounded-xl px-4 py-2.5 text-sm"
                     />
                   </div>

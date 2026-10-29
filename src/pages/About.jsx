@@ -12,7 +12,7 @@ const About = () => {
         subtitle="Poznaj historię Domku Górski Strumień i urok malowniczej wsi Stronie Śląskie Wieś w dolinie potoku Janówka."
         isHome={false}
         bgImage="/assets/images/ogrod-laki.webp"
-        badge="Łucja i Sylwester Kozińscy • Gospodarze"
+        badge="Łucja Kozińska • Gospodyni"
       />
 
       {/* Main Story Section */}

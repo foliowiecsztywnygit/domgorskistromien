@@ -79,7 +79,7 @@ const Contact = () => {
           <div className="lg:col-span-5 space-y-6">
             
             <div className="bg-white p-8 rounded-3xl border border-[#E1E9D5] shadow-soft space-y-6">
-              <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Dane Gospodarzy</span>
+              <span className="text-xs uppercase font-bold tracking-widest text-[#53721D]">Dane Gospodyni</span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900">
                 Domek Górski Strumień
               </h2>
@@ -118,12 +118,9 @@ const Contact = () => {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <span className="text-xs uppercase font-bold tracking-wider text-gray-400 block">Adresy e-mail:</span>
-                    <a href={`mailto:${contact.emails[0]}`} className="font-semibold text-gray-900 hover:text-[#53721D] block">
-                      {contact.emails[0]}
-                    </a>
-                    <a href={`mailto:${contact.emails[1]}`} className="text-xs text-gray-500 hover:text-[#53721D]">
-                      {contact.emails[1]}
+                    <span className="text-xs uppercase font-bold tracking-wider text-gray-400 block">Adres e-mail:</span>
+                    <a href={`mailto:${contact.email}`} className="font-semibold text-gray-900 hover:text-[#53721D] block">
+                      {contact.email}
                     </a>
                   </div>
                 </div>

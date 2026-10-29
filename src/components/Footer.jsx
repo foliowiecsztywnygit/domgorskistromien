@@ -19,9 +19,9 @@ const Footer = () => {
               <span>{contact.phone}</span>
             </a>
             <span className="opacity-50">|</span>
-            <a href={`mailto:${contact.emails[0]}`} className="inline-flex items-center gap-2 hover:underline">
+            <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2 hover:underline">
               <Mail size={15} />
-              <span>{contact.emails[0]}</span>
+              <span>{contact.email}</span>
             </a>
           </div>
         </div>
@@ -141,14 +141,9 @@ const Footer = () => {
 
             <div className="flex items-center gap-3 text-sm text-gray-400">
               <Mail size={18} className="text-[#8BC030] shrink-0" />
-              <div className="flex flex-col">
-                <a href={`mailto:${contact.emails[0]}`} className="hover:text-[#AED864]">
-                  {contact.emails[0]}
-                </a>
-                <a href={`mailto:${contact.emails[1]}`} className="text-xs text-gray-500 hover:text-gray-400">
-                  {contact.emails[1]}
-                </a>
-              </div>
+              <a href={`mailto:${contact.email}`} className="hover:text-[#AED864]">
+                {contact.email}
+              </a>
             </div>
 
             <div className="mt-4 pt-4 border-t border-white/10 text-xs text-gray-400">

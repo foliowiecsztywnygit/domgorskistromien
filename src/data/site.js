@@ -3,14 +3,15 @@ const IMG = '/assets/images';
 
 export const contact = {
   name: 'Domek Górski Strumień',
-  owners: 'Łucja i Sylwester Kozińscy',
+  owners: 'Łucja Kozińska',
   street: 'ul. Leśna 2',
   city: 'Stronie Śląskie – Wieś',
   region: 'Ziemia Kłodzka, rejon Czarnej Góry',
   phone: '+48 509 725 055',
   phoneHref: 'tel:+48509725055',
   smsHref: 'sms:+48509725055',
-  emails: ['biuro@domekgorskistrumien.pl', 'lowtax.biuro@gmail.com'],
+  email: 'domekgorskistrumien@gmail.com',
+  emails: ['domekgorskistrumien@gmail.com'],
   bankName: 'mBank',
   bankAccount: '23 1140 2004 0000 3402 2874 5444',
   depositInfo: 'Preferujemy wpłatę zadatku w wysokości minimum 30% wartości rezerwacji na konto',
@@ -49,7 +50,7 @@ export const highlights = [
 export const about = {
   title: 'O Nas',
   paragraphs: [
-    'W malowniczej dolinie potoku Janówka, położonego wzdłuż drogi ze Stronia Śląskiego na Sienną, rozpościera się Stronie Śląskie Wieś. To mała wieś, ale urocza. Jedno z zabudowań, przy ul. Leśnej 2, należy do nas – Łucji i Sylwestra Kozińskich – i nazywa się „Domek Górski Strumień”.',
+    'W malowniczej dolinie potoku Janówka, położonego wzdłuż drogi ze Stronia Śląskiego na Sienną, rozpościera się Stronie Śląskie Wieś. To mała wieś, ale urocza. Jedno z zabudowań, przy ul. Leśnej 2, należy do mnie – Łucji Kozińskiej – i nazywa się „Domek Górski Strumień”.',
     'Są tutaj piękne zimy i wspaniałe warunki do uprawiania sportów zimowych oraz letnich, jelenie, które dokarmiają się pod oknami domku, cisza taka, że słychać skrzekot derkaczy, kukanie kukułek, rykowiska jeleni w jesienną noc, cudowne widoki na Kotlinę Strońską i otaczające ją góry oraz możliwość obserwacji gwiazd na czarnym nocnym niebie. Ale to tylko kilka z bardzo wielu pozytywnych stron mieszkania w górskiej wsi. Aby je poznać, wystarczy tu przyjechać.',
     'Domek usytuowany jest wśród łąk, na których były wypasane byki i krowy, co spowodowało, że teraz na tych łąkach rośnie sporo kani. W okolicznych lasach jest raj dla grzybiarzy. Wokół domku są piękne widoki na pasmo gór w Masywie Śnieżnika i na miasteczko Stronie Śląskie. Do domku prowadzi asfaltowa, oświetlona droga. Przed domkiem są bezpłatne miejsca postojowe. Domek otoczony jest ogrodem z altanką, grillem i wędzarnią.',
   ],
@@ -62,8 +63,17 @@ export const houseInfo = [
     icon: 'CookingPot',
     items: [
       'Na parterze w korytarzu jest stojak na narty.',
-      'Do wyłącznej dyspozycji turystów jest duża, w pełni wyposażona kuchnia z jadalnią (duża lodówka, kuchenka 4-palnikowa na gaz) z wyjściem na taras, gdzie jest też kącik jadalny i kącik do zabawy dla dzieci.',
-      'Na parterze jest też salonik z kominkiem oraz pokój zabaw.',
+      'Do wyłącznej dyspozycji gości jest duża, w pełni wyposażona kuchnia z jadalnią (duża lodówka, kuchenka 4-palnikowa na gaz) z wyjściem na taras, gdzie jest kącik jadalny i strefa wypoczynku na świeżym powietrzu.',
+      'Na parterze jest też salonik z kominkiem oraz pokój rekreacyjny ze stołem do piłkarzyków.',
+    ],
+  },
+  {
+    title: 'Zasady pobytu i wiek gości',
+    icon: 'ShieldCheck',
+    items: [
+      'Dla zapewnienia ciszy, komfortu i bezpieczeństwa, zapraszamy osoby dorosłe oraz dzieci od 10. roku życia.',
+      'Obiekt nie przyjmuje dzieci poniżej 10 lat.',
+      'Wynajem dotyczy poszczególnych pokoi gościnnych z łazienkami (nie prowadzimy wynajmu całego domu na wyłączność).',
     ],
   },
   {
@@ -130,7 +140,7 @@ export const rooms = [
       img('siwka-5', 'Pokój „Siwka i kasztanki” – stolik z fotelem'),
       img('siwka-6', 'Pokój „Siwka i kasztanki” – rozkładana sofa i stolik'),
       img('siwka-7', 'Pokój „Siwka i kasztanki” – sofa i wejście do łazienki'),
-      img('siwka-lazienka', 'Pokój „Siwka i kasztanki” – łazienka (dostępna wanienka dla dziecka)'),
+      img('siwka-lazienka', 'Pokój „Siwka i kasztanki” – prywatna łazienka z prysznicem'),
     ],
   },
   {

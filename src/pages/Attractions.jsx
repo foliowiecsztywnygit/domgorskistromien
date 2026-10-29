@@ -60,7 +60,7 @@ const Attractions = () => {
     {
       title: "Międzygórze – Wodospad Wilczki i Ogród Bajek",
       distance: "15 km",
-      category: "Krajobraz & Dzieci",
+      category: "Krajobraz & Natura",
       desc: "Klimatyczna wieś w stylu tyrolskim, drugi co do wysokości wodospad w polskich Sudetach (22 m) w głębokim wąwozie oraz uroczy Ogród Bajek na stoku Lesieńca.",
       icon: Trees,
       badge: "Klimat alpejski"

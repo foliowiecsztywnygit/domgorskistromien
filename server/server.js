@@ -122,7 +122,7 @@ app.post('/api/inquiries', (req, res) => {
           try {
             await resend.emails.send({
               from: 'rezerwacje@domekgorskistrumien.pl',
-              to: 'biuro@domekgorskistrumien.pl',
+              to: 'domekgorskistrumien@gmail.com',
               subject: `Zapytanie o rezerwację - Domek Górski Strumień - ${guest_name}`,
               html: `
                 <h2>Nowe zapytanie o rezerwację w Domku Górski Strumień</h2>
@@ -131,7 +131,7 @@ app.post('/api/inquiries', (req, res) => {
                 <p><strong>Email:</strong> ${guest_email}</p>
                 <p><strong>Wybrany pokój / opcja:</strong> ID #${cabin_id || 'Brak'}</p>
                 <p><strong>Termin:</strong> ${start_date} do ${end_date}</p>
-                <p><strong>Liczba gości:</strong> ${guest_count} (dzieci do 3 lat: ${children_under_3 || 0}, pow. 3 lat: ${children_over_3 || 0})</p>
+                <p><strong>Liczba gości (od 10 lat):</strong> ${guest_count}</p>
                 <p><strong>Wiadomość gościa:</strong><br />${message || '(brak dodatkowej wiadomości)'}</p>
               `
             });

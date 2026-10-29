@@ -25,10 +25,13 @@ const Pricing = () => {
             </div>
             <div>
               <h2 className="text-xl font-serif font-bold text-gray-900">
-                Informacje o cenniku
+                Informacje o cenniku i zasadach wynajmu
               </h2>
               <p className="text-sm text-gray-600 font-light mt-1">
-                {pricing.validity}. Ceny uzależnione są od wybranego pokoju, liczby osób w pokoju oraz terminu pobytu.
+                {pricing.validity}. Ceny dotyczą wynajmu poszczególnych pokoi. Obiekt nie jest wynajmowany w całości.
+              </p>
+              <p className="text-xs text-[#53721D] font-semibold mt-1">
+                • Zapraszamy osoby dorosłe oraz dzieci od 10. roku życia (brak możliwości pobytu dzieci poniżej 10 lat).
               </p>
             </div>
           </div>

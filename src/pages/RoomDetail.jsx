@@ -134,7 +134,7 @@ const RoomDetail = () => {
               </h3>
               <div className="space-y-4 text-sm text-gray-600 font-light leading-relaxed">
                 <p>
-                  • <strong>Duża kuchnia z jadalnią:</strong> do wyłącznej dyspozycji turystów (duża lodówka, 4-palnikowa kuchenka gazowa, czajnik, naczynia, garnki) z bezpośrednim wyjściem na taras z kącikiem jadalnym i miejscem zabaw dla dzieci.
+                  • <strong>Duża kuchnia z jadalnią:</strong> do wyłącznej dyspozycji gości (duża lodówka, 4-palnikowa kuchenka gazowa, czajnik, naczynia, garnki) z bezpośrednim wyjściem na taras z kącikiem jadalnym i strefą relaksu na świeżym powietrzu.
                 </p>
                 <p>
                   • <strong>Salonik z kominkiem:</strong> miejsce na relaks przy cieple domowego ogniska, zabytkowe pianino, wygodne fotele.
@@ -205,6 +205,11 @@ const RoomDetail = () => {
                   <Phone size={16} className="text-[#8BC030]" />
                   <span>Zadzwoń: {contact.phone}</span>
                 </a>
+              </div>
+
+              {/* Age policy & rental note */}
+              <div className="bg-[#F4F9EB] p-4 rounded-xl border border-[#E1E9D5] text-[11px] text-[#3E5516] leading-relaxed">
+                <strong>Zasady pobytu:</strong> Zapraszamy osoby dorosłe oraz dzieci od 10. roku życia (brak możliwości pobytu dzieci poniżej 10 lat). Wynajem dotyczy pojedynczych pokoi.
               </div>
 
               {/* Deposit note */}

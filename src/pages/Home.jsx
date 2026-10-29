@@ -85,7 +85,7 @@ const Home = () => {
                 to="/o-nas"
                 className="inline-flex items-center gap-2 text-[#53721D] font-bold text-sm hover:underline"
               >
-                <span>Przeczytaj naszą historię i poznaj gospodarzy</span>
+                <span>Przeczytaj naszą historię i poznaj gospodynię</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -100,7 +100,7 @@ const Home = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
                 <div className="text-white">
-                  <span className="text-xs uppercase tracking-widest text-[#AED864] font-semibold">Gospodarze</span>
+                  <span className="text-xs uppercase tracking-widest text-[#AED864] font-semibold">Gospodyni</span>
                   <h3 className="font-serif text-xl font-bold">{contact.owners}</h3>
                   <p className="text-xs text-gray-300">Stronie Śląskie – Wieś, ul. Leśna 2</p>
                 </div>
@@ -131,7 +131,7 @@ const Home = () => {
               Wszystko, czego potrzebujesz do udanego wypoczynku
             </h2>
             <p className="text-gray-600 font-light text-base">
-              Domek został przygotowany z myślą o rodzinach z dziećmi, grupach przyjaciół oraz parach szukających ciszy i bliskości natury.
+              Domek stworzony dla osób szukających ciszy i regeneracji w górach, par oraz rodzin ze starszymi dziećmi (od 10 lat).
             </p>
           </div>
 
@@ -239,36 +239,36 @@ const Home = () => {
             </div>
           ))}
 
-          {/* Whole House Card */}
+          {/* Information Card - Quiet Stay & Policy */}
           <div className="bg-gradient-to-br from-[#2D4412] to-[#1C2B0B] text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl">
             <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-[#AED864]">Wynajem na wyłączność</span>
+              <span className="text-xs uppercase font-bold tracking-widest text-[#AED864]">Komfortowy wypoczynek</span>
               <h3 className="text-3xl font-serif font-bold mt-2 mb-4">
-                Cały Domek dla Twojej Grupy
+                Oaza Spokoju i Ciszy
               </h3>
               <p className="text-sm text-gray-300 font-light leading-relaxed mb-6">
-                Planujesz wyjazd ze znajomymi lub dużą rodziną? Wynajmij cały dom (16 miejsc) na wyłączność – w tym 5 pokoi z łazienkami, kuchnię z jadalnią i tarasem, salonik z kominkiem, pokój zabaw oraz ogród z altaną i wędzarnią!
+                Domek Górski Strumień to kameralne miejsce stworzone z myślą o wypoczynku w harmonii z górską przyrodą. Wynajmujemy wyłącznie niezależne pokoje gościnne z prywatnymi łazienkami.
               </p>
-              <ul className="space-y-2 text-xs text-gray-200">
+              <ul className="space-y-2.5 text-xs text-gray-200">
                 <li className="flex items-center gap-2">
-                  <CheckCircle size={15} className="text-[#AED864]" /> Do 16 osób w 5 pokojach z łazienkami
+                  <CheckCircle size={15} className="text-[#AED864]" /> Przyjmujemy gości od 10. roku życia
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle size={15} className="text-[#AED864]" /> Kuchnia, salon z kominkiem, piłkarzyki
+                  <CheckCircle size={15} className="text-[#AED864]" /> 5 niezależnych pokoi z łazienkami i TV
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle size={15} className="text-[#AED864]" /> Ogród z altaną, grillem i wędzarnią
+                  <CheckCircle size={15} className="text-[#AED864]" /> Wspólna kuchnia z jadalnią, taras i ogród
                 </li>
               </ul>
             </div>
 
             <div className="pt-8">
               <Link
-                to="/rezerwacja?cabin=6"
+                to="/rezerwacja"
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#8BC030] hover:bg-[#74A425] text-white py-3.5 px-6 rounded-xl text-sm font-bold tracking-wide uppercase transition-all"
               >
                 <Calendar size={16} />
-                <span>Zapytaj o cały domek</span>
+                <span>Sprawdź wolne terminy</span>
               </Link>
             </div>
           </div>
@@ -420,7 +420,7 @@ const Home = () => {
             „Cisza taka, że słychać skrzekot derkaczy, kukanie kukułek, rykowiska jeleni w jesienną noc, cudowne widoki na Kotlinę Strońską oraz możliwość obserwacji gwiazd na czarnym nocnym niebie...”
           </blockquote>
           <p className="text-sm text-[#AED864] font-medium tracking-wider uppercase">
-            — Łucja i Sylwester Kozińscy, Domek Górski Strumień
+            — Łucja Kozińska, Domek Górski Strumień
           </p>
         </div>
       </section>

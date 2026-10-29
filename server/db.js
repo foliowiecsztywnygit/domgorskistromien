@@ -29,12 +29,14 @@ const db = new sqlite3.Database(dbPath, (err) => {
                         "Pokój nr 2: Wiklinowy (4 os.)",
                         "Pokój nr 3: Studio Łowicki Akcent (5 os.)",
                         "Pokój nr 4: Migdałowy Poranek (4 os.)",
-                        "Pokój nr 5: Dla Zakochanych (2 os.)",
-                        "Cały domek na wyłączność (16 os.)"
+                        "Pokój nr 5: Dla Zakochanych (2 os.)"
                     ];
                     const stmt = db.prepare("INSERT INTO cabins (name) VALUES (?)");
                     defaultRooms.forEach(name => stmt.run(name));
                     stmt.finalize();
+                } else {
+                    // Ensure whole house option is removed
+                    db.run("DELETE FROM cabins WHERE id = 6 OR name LIKE '%Cały domek%'");
                 }
             });
 
