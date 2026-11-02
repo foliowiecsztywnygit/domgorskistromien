@@ -15,6 +15,10 @@ COPY . .
 # Build the Vite frontend
 RUN npm run build
 
+# Environment settings
+ENV NODE_ENV=production
+ENV PORT=3001
+
 # Expose the port the app runs on
 EXPOSE 3001
 

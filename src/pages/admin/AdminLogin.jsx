@@ -32,8 +32,12 @@ const AdminLogin = () => {
         const data = await res.json();
         localStorage.setItem('adminToken', data.token);
         navigate('/admin');
-      } else {
+      } else if (res.status === 405) {
+        setError('Błąd 405 (Method Not Allowed): Serwer nie przekazuje zapytań POST do Node.js. Sprawdź w Coolify czy Build Pack to Dockerfile i port to 3001.');
+      } else if (res.status === 401) {
         setError('Nieprawidłowe hasło administratora');
+      } else {
+        setError(`Błąd serwera (kod ${res.status})`);
       }
     } catch (err) {
       setError('Błąd połączenia z serwerem');
