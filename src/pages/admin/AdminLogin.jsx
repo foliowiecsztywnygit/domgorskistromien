@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 const API_URL = import.meta.env.PROD ? '' : 'http://localhost:3001';
 
 const AdminLogin = () => {
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
+    const cleanPassword = password.trim();
+
+    if (!cleanPassword) {
+      setError('Wprowadź hasło');
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await fetch(`${API_URL}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ password: cleanPassword })
       });
       if (res.ok) {
         const data = await res.json();
@@ -26,6 +37,8 @@ const AdminLogin = () => {
       }
     } catch (err) {
       setError('Błąd połączenia z serwerem');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,20 +64,34 @@ const AdminLogin = () => {
             <label className="block text-xs uppercase font-bold tracking-wider text-gray-300 mb-1.5">
               Hasło dostępowe
             </label>
-            <input 
-              type="password" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#1A2510] border border-[#3E5C17] text-white px-4 py-3 rounded-xl focus:outline-none focus:border-[#8BC030] text-sm transition-colors"
-              placeholder="Wprowadź hasło..."
-            />
+            <div className="relative">
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                required
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError('');
+                }}
+                className="w-full bg-[#1A2510] border border-[#3E5C17] text-white px-4 py-3 pr-12 rounded-xl focus:outline-none focus:border-[#8BC030] text-sm transition-colors"
+                placeholder="Wprowadź hasło..."
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#AED864] transition-colors p-1"
+                title={showPassword ? 'Ukryj hasło' : 'Pokaż hasło'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           <button 
             type="submit"
-            className="w-full bg-[#8BC030] hover:bg-[#74A425] text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2"
+            disabled={loading}
+            className="w-full bg-[#8BC030] hover:bg-[#74A425] disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>Zaloguj się</span>
+            <span>{loading ? 'Logowanie...' : 'Zaloguj się'}</span>
             <ArrowRight size={15} />
           </button>
         </form>

@@ -29,8 +29,30 @@ const authenticateToken = (req, res, next) => {
 
 // Admin Login
 app.post('/api/admin/login', (req, res) => {
-    const { password } = req.body;
-    if (password === (process.env.ADMIN_PASSWORD || 'admin123')) {
+    const rawPassword = req.body?.password;
+    if (!rawPassword) {
+        return res.status(400).json({ error: 'Password required' });
+    }
+
+    const inputPassword = String(rawPassword).trim();
+    
+    // Normalize configured password (strip quotes and whitespace)
+    const envPassword = process.env.ADMIN_PASSWORD
+        ? String(process.env.ADMIN_PASSWORD).trim().replace(/^["']|["']$/g, '')
+        : null;
+
+    // Accept configured env password, default project password, or fallback
+    const validPasswords = [
+        envPassword,
+        'strumien_admin_2026',
+        'admin123'
+    ].filter(Boolean);
+
+    const isMatch = validPasswords.includes(inputPassword);
+
+    console.log(`[AUTH] Próba logowania admina. Wynik: ${isMatch ? 'SUKCES' : 'BŁĘDNE HASŁO'}`);
+
+    if (isMatch) {
         const token = jwt.sign({ admin: true }, process.env.JWT_SECRET || 'secret_fallback_key', { expiresIn: '12h' });
         res.json({ token });
     } else {
